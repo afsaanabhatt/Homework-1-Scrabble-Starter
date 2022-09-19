@@ -14,7 +14,7 @@ function canConstructWord(availableTiles, word) {
     let ans = true;
     var char = word.split('');
     let wordLetters = {};
-    for (let i=0; i<word.length; i++) {
+    for (let i=0; i<word.length; i++) {     // create object with letters occuring in word with its frequency
         let currLetter = char[i];
         if(wordLetters[currLetter]) {
             wordLetters[currLetter]++;
@@ -25,10 +25,10 @@ function canConstructWord(availableTiles, word) {
     const keys = Object.keys(wordLetters);
     keys.forEach((key, count) => {
         let checkLetter = wordLetters[key];
-        if(!availableTiles[key]) {
-            missingCount++;
-            ans = false;
-        }
+        if(!availableTiles[key]) {          
+            missingCount++;                 // count number of reasons why a word cannot be constructed,
+            ans = false;                    // then if those number of reasons is less than or equal to number of wildcards,
+        }                                   // then word can be constructed
         else if (availableTiles[key] < checkLetter) {
             missingCount++;
             ans = false;
@@ -77,6 +77,7 @@ console.log("Test 6(False): ", canConstructWord(new_tiles, 'words'));
 console.log("Test 7(False): ", canConstructWord(new_tiles, 'woords'));
 
 
+//testing for baseScore
 console.log("Test 8 (7)", baseScore('w*rd'));
 console.log("Test 9 (8)", baseScore('word'));
 console.log("Test 10 (18)", baseScore('perchance'));
@@ -84,8 +85,6 @@ console.log("Test 11 (16)", baseScore('zebra'));
 console.log("Test 12 (6)", baseScore('*ebra'));
 console.log("Test 13 (16)", baseScore('xavier'));
 console.log("Test 14 (94)", baseScore('aquickbrownfoxjumpsoverthelazydog'));
-
-
 console.log("Test 15 (48)", baseScore('floccinaucinihilipilification'));
 console.log("Test 16 (56)", baseScore('supercalifragilisticexpialidocious'));
 console.log("Test 17 (68)", baseScore('hippopotomonstrosesquippedaliophobia'));
@@ -99,10 +98,3 @@ console.log("Test 21 (True)", canConstructWord({'a':1}, '')); // non-empty avail
 console.log("Test 22 (True)", canConstructWord({'a':1}, '')) // nonempty available letters, trivial string
 console.log("Test 23 (True)", canConstructWord({'a':1},'a')) //one character match
 console.log("Test 24 (True)", canConstructWord({'*':1},'a')) // wild card for one letter
-
-
-console.assert(canConstructWord({}, ""), "Should construct empty word with no letters.");
-console.assert(!canConstructWord({}, "a"), "Shouldn't construct word with no available letters.");
-console.assert(canConstructWord({ a: 1 }, ""), "Should construct empty word with letters.");
-console.assert(canConstructWord({ a: 1 }, "a"), "Should construct single letter word.");
-console.assert(canConstructWord({ "*": 1 }, "a"), "Should construct single letter word w/ wildcard.");
